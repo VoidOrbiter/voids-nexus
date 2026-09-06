@@ -5,6 +5,15 @@ set( CMAKE_C_STANDARD_REQUIRED ON )
 find_package( raylib REQUIRED )
 add_executable( ${PROJECT_NAME}
 	main.c
+
+	src/pages/MainMenu.c
+	src/pages/CharCreatorPage.c
+
+	src/ui/v_gui.c
+
+	src/configs/AssetConfigs.c
+	src/configs/ControlConfigs.c
+	src/configs/StateConfigs.c
 )
 target_link_libraries( ${PROJECT_NAME} PRIVATE raylib )
 target_include_directories( ${PROJECT_NAME} PRIVATE includes )
