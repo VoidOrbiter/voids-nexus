@@ -8,6 +8,7 @@ add_executable( ${PROJECT_NAME}
 
 	src/pages/MainMenu.c
 	src/pages/CharCreatorPage.c
+	src/pages/EditorPage.c
 
 	src/ui/v_gui.c
 

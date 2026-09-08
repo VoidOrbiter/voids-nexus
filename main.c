@@ -4,7 +4,7 @@
 
 
 int main( void ) {
-	main_ctx.currentState = MainCharCreator; // Switch Back to MainMenu
+	main_ctx.currentState = MainMenu; // Switch Back to MainMenu
 
 	SetConfigFlags( FLAG_WINDOW_UNDECORATED );
 	InitWindow( 1920, 1080, "voids-nexus" );
@@ -16,14 +16,17 @@ int main( void ) {
 	while ( !WindowShouldClose() && main_ctx.currentState != MainExit ) {
 	    mousePos	= GetMousePosition();
 		switch( main_ctx.currentState ) {
-		    case MainMenu:
-			MainMenuPage();
-			break;
-		    case MainCharCreator:
-			CharCreatorPage();
-			break;
-		    default:
-			break;
+			case MainMenu:
+				MainMenuPage();
+				break;
+			case MainCharCreator:
+				CharCreatorPage();
+				break;
+			case MainEditor:
+				EditorPage();
+				break;
+			default:
+				break;
 		}
 	}
 	UnloadAssets();

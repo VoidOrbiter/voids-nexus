@@ -52,6 +52,10 @@ void _updateMainMenu() {
 				break;
 			case MainMenuExit:
 				main_ctx.currentState = MainExit;
+				break;
+			case MainMenuDevMode:
+				main_ctx.currentState = MainEditor;
+				break;
 			default:
 				break;
 		}

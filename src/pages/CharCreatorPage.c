@@ -22,6 +22,8 @@ typedef struct {
 
 	int			playerAge;
 	_Bool			isMale;
+
+	_Bool			isExitAsked;
 } CharCreatorContext;
 
 static CharCreatorContext char_creator_ctx;
@@ -36,6 +38,36 @@ void _updateCreatorPanel( void ) {
 			char_creator_ctx.currentIdx = ( char_creator_ctx.currentIdx + 1 ) % CharCreatorOptionsCount;
 		}
 	}
+
+	if ( IsKeyPressed( KEY_ESCAPE ) ) {
+		char_creator_ctx.isExitAsked = !char_creator_ctx.isExitAsked;
+	}
+}
+
+void _drawExitPrompt() {
+
+	Rectangle exitPanel 	= { GetScreenWidth()/2 - 100, GetScreenHeight()/2 - 25, 200, 50 };
+	Rectangle confBtnRec	= { exitPanel.x + 20, exitPanel.y + exitPanel.height - 27, 75, 24};
+	Rectangle cancBtnRec	= { confBtnRec.x + confBtnRec.width + 5, confBtnRec.y, 75, 24 };
+	DrawPanel( exitPanel, ColorBorder, RED );
+
+	const char *question 	= "Are You Sure?";
+	float questionWidth 	= MeasureTextEx( mainFont, question, 16.0f, 1.0f).x;
+	float questionX		= exitPanel.x + ( exitPanel.width - questionWidth ) / 2.0f;
+	DrawTextEx( mainFont, question, ( Vector2 ){ questionX, exitPanel.y + 2}, 16.0f, 1.0f, ColorWarn );
+
+	Button confBtn = DrawButton(mainFont, confBtnRec, "Yes", 16.0f, ColorBorder, ColorWarn, ColorPrimaryText );
+	Button cancBtn = DrawButton( mainFont, cancBtnRec, "No", 16.0f, ColorBorder, ColorSucc, ColorPrimaryText );
+
+	if ( confBtn.isLeftReleased ) {
+		char_creator_ctx = (CharCreatorContext){ 0 };
+		main_ctx.currentState = MainMenu;
+		char_creator_ctx.isExitAsked = !char_creator_ctx.isExitAsked;
+	}
+	if ( cancBtn.isLeftPressed ) {
+		char_creator_ctx.isExitAsked = !char_creator_ctx.isExitAsked;
+	}
+
 }
 
 void _drawPlayerInfoBar( Rectangle panel ){
@@ -76,6 +108,9 @@ void _drawCreatorPanel( void ) {
 		Rectangle backPanel	= { GetScreenWidth()/2 - 800, 0, 1600, GetScreenHeight() };
 		DrawPanel( backPanel, ColorBorder, ColorInfo );
 		_drawPlayerInfoBar( backPanel );
+		if ( char_creator_ctx.isExitAsked ) {
+			_drawExitPrompt();
+		}
 	EndDrawing();
 }
 

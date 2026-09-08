@@ -57,6 +57,41 @@ Rectangle DrawBottomPanel( int h, Color outline, Color innerOutline ) {
 	return bp;
 }
 
+Button DrawButton(
+	Font		font,
+	Rectangle	rec,
+	const char	*text,
+	float		fontSize,
+	Color		outlineColor,
+	Color		outlineHover,
+	Color		textColor
+) {
+	Vector2 mousePos	= GetMousePosition();
+
+	Button endBtn  	= { 0 };
+	endBtn.rec	= rec;
+
+	if ( CheckCollisionPointRec( mousePos, rec)) {
+		endBtn.isHovered	= 1;
+		if ( IsMouseButtonPressed( MOUSE_LEFT_BUTTON )) endBtn.isLeftPressed		= 1;
+		if ( IsMouseButtonReleased( MOUSE_LEFT_BUTTON )) endBtn.isLeftReleased		= 1;
+		if ( IsMouseButtonPressed( MOUSE_RIGHT_BUTTON )) endBtn.isRightPressed		= 1;
+		if ( IsMouseButtonReleased( MOUSE_RIGHT_BUTTON )) endBtn.isRightReleased	= 1;
+	}
+
+	Color endColor	= endBtn.isHovered ? outlineHover : outlineColor;
+
+	DrawPanel( rec, outlineColor, endColor );
+
+	Vector2 textSize = MeasureTextEx( font, text, fontSize, 1.0f );
+	float textX = rec.x + ( rec.width - textSize.x ) / 2.0f;
+	float textY = rec.y + ( rec.height - textSize.y ) / 2.0f;
+
+	DrawTextEx( font, text, ( Vector2 ){ textX, textY }, fontSize, 1.0f, textColor );
+
+	return endBtn;
+}
+
 void DrawInput(
 	Font		font,
 	Rectangle	rec,

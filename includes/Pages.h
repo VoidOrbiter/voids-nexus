@@ -3,5 +3,6 @@
 
 void MainMenuPage( void );
 void CharCreatorPage( void );
+void EditorPage( void );
 
 #endif
